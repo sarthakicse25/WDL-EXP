@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inkwell — Creative Text Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="bg-canvas">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <nav class="navbar">
+    <div class="brand">
+      <svg class="brand-star" viewBox="0 0 24 24"><path d="M12 2L13.9 8.4L20.5 9L15.5 13.7L17.1 20.5L12 17L6.9 20.5L8.5 13.7L3.5 9L10.1 8.4Z"/></svg>
+      <span>Inkwell</span>
+    </div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </div>
+    <span class="nav-badge">v2.0</span>
+  </nav>
+
+  <main class="page">
+    <div class="shell">
+
+      <header class="shell-header">
+        <div>
+          <h1 class="shell-title">Creative <em>Studio</em></h1>
+          <p class="shell-sub">Your ideas, beautifully formatted.</p>
+        </div>
+        <div class="header-stats">
+          <div class="stat-chip" id="hw">0 words</div>
+          <div class="stat-chip" id="hc">0 chars</div>
+          <div class="stat-chip" id="hl">1 line</div>
+        </div>
+      </header>
+
+      <!-- ══════════════ TOOLBAR ══════════════ -->
+      <div class="toolbar">
+
+        <!-- ROW 1 -->
+        <div class="tb-row">
+
+          <div class="tb-group">
+            <span class="tb-label">Format</span>
+            <div class="tb-btns">
+              <button class="tbtn" id="btn-bold"      onclick="toggleBold()"><b>B</b><em>Bold</em></button>
+              <button class="tbtn" id="btn-italic"    onclick="toggleItalic()"><i>I</i><em>Italic</em></button>
+              <button class="tbtn" id="btn-underline" onclick="toggleUnderline()"><u>U</u><em>Underline</em></button>
+              <button class="tbtn" id="btn-strike"    onclick="toggleStrike()"><s>S</s><em>Strike</em></button>
+            </div>
+          </div>
+
+          <div class="tb-sep"></div>
+
+          <div class="tb-group">
+            <span class="tb-label">Alignment</span>
+            <div class="tb-btns">
+              <button class="tbtn" id="btn-left"    onclick="setAlign('left')">
+                <svg viewBox="0 0 20 16" fill="currentColor"><rect x="0" y="0"  width="20" height="2.5" rx="1.2"/><rect x="0" y="6.5" width="13" height="2.5" rx="1.2"/><rect x="0" y="13" width="16" height="2.5" rx="1.2"/></svg>
+                <em>Left</em>
+              </button>
+              <button class="tbtn" id="btn-center"  onclick="setAlign('center')">
+                <svg viewBox="0 0 20 16" fill="currentColor"><rect x="0" y="0"  width="20" height="2.5" rx="1.2"/><rect x="3.5" y="6.5" width="13" height="2.5" rx="1.2"/><rect x="2" y="13" width="16" height="2.5" rx="1.2"/></svg>
+                <em>Center</em>
+              </button>
+              <button class="tbtn" id="btn-right"   onclick="setAlign('right')">
+                <svg viewBox="0 0 20 16" fill="currentColor"><rect x="0" y="0"  width="20" height="2.5" rx="1.2"/><rect x="7" y="6.5" width="13" height="2.5" rx="1.2"/><rect x="4" y="13" width="16" height="2.5" rx="1.2"/></svg>
+                <em>Right</em>
+              </button>
+              <button class="tbtn" id="btn-justify" onclick="setAlign('justify')">
+                <svg viewBox="0 0 20 16" fill="currentColor"><rect x="0" y="0"  width="20" height="2.5" rx="1.2"/><rect x="0" y="6.5" width="20" height="2.5" rx="1.2"/><rect x="0" y="13" width="20" height="2.5" rx="1.2"/></svg>
+                <em>Justify</em>
+              </button>
+            </div>
+          </div>
+
+          <div class="tb-sep"></div>
+
+          <div class="tb-group">
+            <span class="tb-label">Case</span>
+            <div class="tb-btns">
+              <button class="tbtn" onclick="toUpperCase()"><span class="mono-lbl">AA</span><em>Upper</em></button>
+              <button class="tbtn" onclick="toLowerCase()"><span class="mono-lbl">aa</span><em>Lower</em></button>
+              <button class="tbtn" onclick="toTitleCase()"><span class="mono-lbl">Aa</span><em>Title</em></button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="tb-row-divider"></div>
+
+        <!-- ROW 2 -->
+        <div class="tb-row">
+
+          <div class="tb-group">
+            <span class="tb-label">Lists</span>
+            <div class="tb-btns">
+              <button class="tbtn" onclick="insertBulletList()">
+                <svg viewBox="0 0 20 16" fill="currentColor"><circle cx="2.5" cy="2.5" r="2.5"/><rect x="7" y="1" width="13" height="2.5" rx="1.2"/><circle cx="2.5" cy="8" r="2.5"/><rect x="7" y="6.5" width="9" height="2.5" rx="1.2"/><circle cx="2.5" cy="13.5" r="2.5"/><rect x="7" y="12" width="11" height="2.5" rx="1.2"/></svg>
+                <em>Bullets</em>
+              </button>
+              <button class="tbtn" onclick="insertNumberList()">
+                <svg viewBox="0 0 20 16" fill="currentColor"><text x="0" y="4" font-size="4.5">1.</text><rect x="7" y="1" width="13" height="2.5" rx="1.2"/><text x="0" y="9.5" font-size="4.5">2.</text><rect x="7" y="6.5" width="9" height="2.5" rx="1.2"/><text x="0" y="15" font-size="4.5">3.</text><rect x="7" y="12" width="11" height="2.5" rx="1.2"/></svg>
+                <em>Numbered</em>
+              </button>
+              <button class="tbtn" onclick="insertQuote()">
+                <svg viewBox="0 0 20 16" fill="currentColor"><path d="M1 1h7v7H6c0 3 1.5 4 4 4v3c-5.5 0-9-3.5-9-8V1zm11 0h7v7h-2c0 3 1.5 4 4 4v3c-5.5 0-9-3.5-9-8V1z"/></svg>
+                <em>Quote</em>
+              </button>
+            </div>
+          </div>
+
+          <div class="tb-sep"></div>
+
+          <div class="tb-group">
+            <span class="tb-label">Insert</span>
+            <div class="tb-btns">
+              <button class="tbtn" onclick="insertHeading()"><span class="mono-lbl">H1</span><em>Heading</em></button>
+              <button class="tbtn" onclick="insertSubheading()"><span class="mono-lbl">H2</span><em>Subhead</em></button>
+              <button class="tbtn" onclick="insertDivider()">
+                <svg viewBox="0 0 20 8" fill="currentColor"><rect x="0" y="3" width="20" height="2" rx="1"/><circle cx="4" cy="4" r="2"/><circle cx="10" cy="4" r="2"/><circle cx="16" cy="4" r="2"/></svg>
+                <em>Divider</em>
+              </button>
+              <button class="tbtn" onclick="insertDate()">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="3" width="18" height="16" rx="2.5"/><line x1="5" y1="1" x2="5" y2="5"/><line x1="15" y1="1" x2="15" y2="5"/><line x1="1" y1="8" x2="19" y2="8"/></svg>
+                <em>Date</em>
+              </button>
+            </div>
+          </div>
+
+          <div class="tb-sep"></div>
+
+          <div class="tb-group">
+            <span class="tb-label">Tools</span>
+            <div class="tb-btns">
+              <button class="tbtn" onclick="countWords()">
+                <svg viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="2" y1="3"  x2="18" y2="3"/><line x1="2" y1="8"  x2="14" y2="8"/><line x1="2" y1="13" x2="16" y2="13"/><circle cx="17.5" cy="13" r="2.5" fill="currentColor" stroke="none"/></svg>
+                <em>Count</em>
+              </button>
+              <button class="tbtn" onclick="copyAll()">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="1" width="13" height="15" rx="2.5"/><rect x="1" y="5" width="13" height="15" rx="2.5"/></svg>
+                <em>Copy</em>
+              </button>
+              <button class="tbtn" id="btn-find" onclick="toggleFind()">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><line x1="12.5" y1="12.5" x2="19" y2="19"/></svg>
+                <em>Find</em>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Find & Replace Bar -->
+      <div class="find-bar" id="find-bar">
+        <input class="find-input" id="find-input"   type="text" placeholder="Find...">
+        <input class="find-input" id="replace-input" type="text" placeholder="Replace with...">
+        <button class="find-action-btn" onclick="doReplace()">Replace All</button>
+        <button class="find-close-btn"  onclick="toggleFind()">✕</button>
+      </div>
+
+      <!-- Controls Row -->
+      <div class="controls-row">
+        <div class="ctrl-item">
+          <label class="ctrl-label">Size</label>
+          <select class="ctrl-sel" onchange="changeSize(this.value)">
+            <option value="13px">13 · Tiny</option>
+            <option value="15px" selected>15 · Small</option>
+            <option value="17px">17 · Normal</option>
+            <option value="21px">21 · Large</option>
+            <option value="27px">27 · XL</option>
+            <option value="34px">34 · Huge</option>
+          </select>
+        </div>
+        <div class="ctrl-item">
+          <label class="ctrl-label">Typeface</label>
+          <select class="ctrl-sel" onchange="changeFont(this.value)">
+            <option value="'DM Mono',monospace">DM Mono</option>
+            <option value="'Playfair Display',serif">Playfair Display</option>
+            <option value="'DM Sans',sans-serif">DM Sans</option>
+            <option value="Georgia,serif">Georgia</option>
+            <option value="'Courier New',monospace">Courier New</option>
+            <option value="'Trebuchet MS',sans-serif">Trebuchet</option>
+          </select>
+        </div>
+        <div class="ctrl-item">
+          <label class="ctrl-label">Spacing</label>
+          <select class="ctrl-sel" onchange="changeLineHeight(this.value)">
+            <option value="1.2">1.2 · Tight</option>
+            <option value="1.6" selected>1.6 · Normal</option>
+            <option value="2.0">2.0 · Relaxed</option>
+            <option value="2.5">2.5 · Airy</option>
+          </select>
+        </div>
+        <div class="ctrl-item ctrl-color">
+          <label class="ctrl-label">Text Color</label>
+          <input type="color" class="color-pick" value="#e8e0d4" onchange="changeColor(this.value)">
+        </div>
+        <div class="ctrl-item ctrl-color">
+          <label class="ctrl-label">BG Color</label>
+          <input type="color" class="color-pick" value="#12121e" onchange="changeBG(this.value)">
+        </div>
+      </div>
+
+      <!-- Editor -->
+      <div class="editor-wrap">
+        <div class="gutter" id="gutter"></div>
+        <textarea id="editor" spellcheck="true" placeholder="Start writing your story here..."></textarea>
+      </div>
+
+      <!-- Action Bar -->
+      <div class="action-bar">
+        <div class="ab-stats">
+          <span id="sb-w">0 words</span>
+          <span class="ab-dot">·</span>
+          <span id="sb-c">0 chars</span>
+          <span class="ab-dot">·</span>
+          <span id="sb-l">1 line</span>
+        </div>
+        <div class="ab-btns">
+          <button class="ab-btn ab-save"   onclick="saveText()">&#10022; Save Draft</button>
+          <button class="ab-btn ab-export" onclick="exportText()">&#8595; Export .txt</button>
+          <button class="ab-btn ab-clear"  onclick="clearText()">&#10005; Clear</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <span class="sf-star">&#10022;</span> Inkwell Creative Editor &nbsp;&middot;&nbsp; Crafted for Writers
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const editor = document.getElementById('editor');
+    const gutter = document.getElementById('gutter');
+    const toast  = document.getElementById('toast');
+    let isBold=false, isItalic=false, isUnderline=false, isStrike=false;
+
+    function updateStats() {
+      const t = editor.value;
+      const w = t.trim() ? t.trim().split(/\s+/).length : 0;
+      const c = t.length;
+      const l = t ? t.split('\n').length : 1;
+      document.getElementById('hw').textContent = w + ' words';
+      document.getElementById('hc').textContent = c + ' chars';
+      document.getElementById('hl').textContent = l + ' lines';
+      document.getElementById('sb-w').textContent = w + ' words';
+      document.getElementById('sb-c').textContent = c + ' chars';
+      document.getElementById('sb-l').textContent = l + (l===1?' line':' lines');
+      let h=''; for(let i=1;i<=l;i++) h+=`<div>${i}</div>`;
+      gutter.innerHTML = h;
+      gutter.scrollTop = editor.scrollTop;
+    }
+    editor.addEventListener('input', updateStats);
+    editor.addEventListener('scroll', () => { gutter.scrollTop = editor.scrollTop; });
+    updateStats();
+
+    let toastT;
+    function showToast(msg) {
+      clearTimeout(toastT);
+      toast.textContent = msg;
+      toast.classList.add('show');
+      toastT = setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    function pulse(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse');
+      el.addEventListener('animationend', () => el.classList.remove('pulse'), {once:true});
+    }
+
+    function toggleBold()      { isBold=!isBold;      editor.style.fontWeight=isBold?'bold':'normal'; document.getElementById('btn-bold').classList.toggle('active',isBold); pulse('btn-bold'); }
+    function toggleItalic()    { isItalic=!isItalic;  editor.style.fontStyle=isItalic?'italic':'normal'; document.getElementById('btn-italic').classList.toggle('active',isItalic); pulse('btn-italic'); }
+    function toggleUnderline() { isUnderline=!isUnderline; buildDec(); document.getElementById('btn-underline').classList.toggle('active',isUnderline); pulse('btn-underline'); }
+    function toggleStrike()    { isStrike=!isStrike;    buildDec(); document.getElementById('btn-strike').classList.toggle('active',isStrike); pulse('btn-strike'); }
+    function buildDec() { editor.style.textDecoration=[isUnderline?'underline':'',isStrike?'line-through':''].filter(Boolean).join(' ')||'none'; }
+
+    function setAlign(d) {
+      editor.style.textAlign=d;
+      ['left','center','right','justify'].forEach(x=>document.getElementById('btn-'+x).classList.toggle('active',x===d));
+      pulse('btn-'+d);
+    }
+
+    function changeSize(v)       { editor.style.fontSize=v; }
+    function changeFont(v)       { editor.style.fontFamily=v; }
+    function changeLineHeight(v) { editor.style.lineHeight=v; }
+    function changeColor(v)      { editor.style.color=v; }
+    function changeBG(v)         { editor.style.backgroundColor=v; }
+
+    function insertAt(text) {
+      const s=editor.selectionStart, e=editor.selectionEnd;
+      editor.value=editor.value.slice(0,s)+text+editor.value.slice(e);
+      editor.selectionStart=editor.selectionEnd=s+text.length;
+      editor.focus(); updateStats();
+    }
+    function insertBulletList()  { insertAt('\n• Item one\n• Item two\n• Item three\n'); }
+    function insertNumberList()  { insertAt('\n1. First item\n2. Second item\n3. Third item\n'); }
+    function insertQuote()       { insertAt('\n"The secret of getting ahead is getting started."\n  — Mark Twain\n'); }
+    function insertHeading()     { insertAt('\n━━━━━━━━━━━━━━━━━━━━━━━\n  YOUR HEADING HERE\n━━━━━━━━━━━━━━━━━━━━━━━\n'); }
+    function insertSubheading()  { insertAt('\n── Subheading ──\n'); }
+    function insertDivider()     { insertAt('\n· · · · · · · · · · · · · · · · · · ·\n'); }
+    function insertDate()        { insertAt(`\n[ ${new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})} ]\n`); }
+
+    function applyCase(fn) {
+      const s=editor.selectionStart, e=editor.selectionEnd;
+      if(s!==e) editor.value=editor.value.slice(0,s)+fn(editor.value.slice(s,e))+editor.value.slice(e);
+      else       editor.value=fn(editor.value);
+      updateStats();
+    }
+    function toUpperCase() { applyCase(v=>v.toUpperCase()); }
+    function toLowerCase() { applyCase(v=>v.toLowerCase()); }
+    function toTitleCase() { applyCase(v=>v.replace(/\w\S*/g,t=>t[0].toUpperCase()+t.slice(1).toLowerCase())); }
+
+    function countWords() {
+      const t=editor.value.trim();
+      const w=t?t.split(/\s+/).length:0;
+      const s=t?(t.match(/[.!?]+/g)||[]).length:0;
+      showToast(`${w} words · ${t.length} chars · ${s} sentences`);
+    }
+    function copyAll() { navigator.clipboard.writeText(editor.value).then(()=>showToast('Copied to clipboard!')); }
+
+    function toggleFind() {
+      const bar=document.getElementById('find-bar');
+      const open=bar.classList.toggle('open');
+      document.getElementById('btn-find').classList.toggle('active',open);
+      if(open) document.getElementById('find-input').focus();
+    }
+    function doReplace() {
+      const f=document.getElementById('find-input').value;
+      const r=document.getElementById('replace-input').value;
+      if(!f) return;
+      const n=editor.value.split(f).length-1;
+      editor.value=editor.value.split(f).join(r);
+      updateStats();
+      showToast(n?`Replaced ${n} instance${n>1?'s':''}`:'No matches found');
+    }
+
+    function saveText()   { localStorage.setItem('inkwell_v2',editor.value); showToast('Draft saved!'); }
+    function exportText() {
+      const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([editor.value],{type:'text/plain'})),download:'inkwell-draft.txt'});
+      a.click(); URL.revokeObjectURL(a.href); showToast('Exported as .txt');
+    }
+    function clearText() { if(editor.value&&confirm('Clear all text?')){editor.value='';updateStats();showToast('Editor cleared.');} }
+
+    const saved=localStorage.getItem('inkwell_v2');
+    if(saved){editor.value=saved;updateStats();}
+  </script>
+</body>
+</html>
